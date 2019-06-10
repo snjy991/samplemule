@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ee9e3721-0146-47e0-86c1-98ae907da61a" basePath="/base">
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	
+	<flow name="sampleprojectFlow" doc:id="a1a44209-57d5-43bc-a3b1-8db9e7b99714" >
+		<http:listener doc:name="Listener" doc:id="b13f0152-3ced-4a20-bc8c-6f782fb877b6" config-ref="HTTP_Listener_config" path="/addition"/>
+		<set-variable value="#[attributes.queryParams.'num1']" doc:name="Set Num1" doc:id="c9503ce5-27ea-49b4-b0a0-88d5fdb18437" variableName="num1"/>
+		<set-variable value="#[attributes.queryParams.'num2']" doc:name="Set Num 2" doc:id="61c6b45f-f1b2-47e1-879f-d7c19db81c47" variableName="num2"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c5341c4a-473b-4e62-b14e-1311537fe272" message="Num1 : #[vars.num1] Num2 : #[vars.num2] result #[attributes.queryParams.'num1' + vars.num2 as Number] &gt;&gt;&gt;&gt;&gt;&gt;#[attributes]"/>
+	</flow>
+</mule>
