@@ -5,7 +5,7 @@
 	<groupId>com.mycompany</groupId>
 	<artifactId>sampleproject</artifactId>
     <version>1.2.0</version>
-    <packaging></packaging>
+    <packaging>mule</packaging>
 
 	<name>sampleproject</name>
 
