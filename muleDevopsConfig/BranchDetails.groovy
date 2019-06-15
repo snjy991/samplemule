@@ -1,6 +1,6 @@
 def getBranchName(){
   def branch=GIT_BRANCH;
   def finalbranch=branch.tokenize("/");
-  return finalbranch;
+  println(finalbranch[1])
 }
 return this
