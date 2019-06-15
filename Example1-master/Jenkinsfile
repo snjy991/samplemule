@@ -3,6 +3,12 @@ pipeline{
   tools {
       maven 'M3'
     }
+    environment {
+      APPLICATIONNAME="Example1-master"
+      ANYPOINTSTUDIO_CREDENTIALS= credentials('anypoint-studio-snjy')
+      DEPLOYMENT_TYPE = sh(script: '/devops/bin/checkRunType.sh ${APPLICATIONNAME}', , returnStdout: true).trim()
+
+    }
     stages {
 
        stage('BuildCode'){
@@ -18,9 +24,10 @@ pipeline{
             script{
                 sh "git rev-parse --short HEAD> .git/commit-id"
                 def commit_id= readFile('.git/commit-id')
-                sh "/devops/bin/appendCommitid.sh ${workspace}/Example1-master/target ${commit_id}"
+                sh "/devops/bin/appendCommitid.sh ${workspace}/${applicationName}/target ${commit_id}"
+                //Creating a artifacts in local server first gives a clear visibility on jenkins builds and later uploading code to jfrog artifactory
                 sh "mkdir /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}"
-                sh "cp -r ${workspace}/Example1-master/target/*.jar /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/"
+                sh "cp -r ${workspace}/${applicationName}/target/*.jar /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/"
                 def branch =load "muleDevopsConfig/BranchDetails.groovy"
                 def branchname= branch.getBranchName()
 
@@ -45,6 +52,9 @@ pipeline{
           script{
             jarName=sh (script : 'ls /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/',returnStdout:true)
             echo "${jarName}"
+            def deploy= load "muleDevopsConfig/DeployCloudHub.groovy"
+            def envType="Dev"
+					  deploy.deployToCloudHub(jarName,envType)
           }
         }
 
