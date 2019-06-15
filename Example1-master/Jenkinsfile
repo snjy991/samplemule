@@ -23,7 +23,6 @@ pipeline{
                 def branchname= branch.getBranchName()
 
                 def server = Artifactory.server 'Artifactorytest'
-                  echo "hey sanjay target path is test/items/${ReleaseName}/${UserStory}"
                   def uploadSpec = """{
                     "files": [
                       {
