@@ -20,7 +20,7 @@ pipeline{
                 def commit_id= readFile('.git/commit-id')
                 sh "/devops/bin/appendCommitid.sh ${workspace}/Example1-master/target ${commit_id}"
                 sh "mkdir /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}"
-                sh "cp -r ${workspace}/Example1-master/target/ /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/"
+                sh "cp -r ${workspace}/Example1-master/target/*.jar /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/"
                 def branch =load "muleDevopsConfig/BranchDetails.groovy"
                 def branchname= branch.getBranchName()
 
