@@ -1,0 +1,48 @@
+pipeline{
+    agent any
+  tools {
+      maven 'M3'
+    }
+    stages {
+    stage ('Checking out the Source code') {
+      steps {
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git_local', url: 'https://github.com/snjy991/samplemule.git']]])
+      }
+   }
+
+       stage('BuildCode'){
+        steps{
+            dir('Example1-master'){
+                sh 'mvn clean install'
+            }
+        }
+       }
+          stage("upload artifactory")
+        {
+            steps{
+            script{
+                sh "git rev-parse --short HEAD> .git/commit-id"
+                def commit_id= readFile('.git/commit-id')
+                sh "/devops/bin/appendCommitid.sh ${workspace}/Example1-master/target ${commit_id}"
+                def branch =load "muleDevopsConfig/BranchDetails.groovy"
+                def branchname= branch.getBranchName()
+                
+                def server = Artifactory.server 'Artifactorytest'
+                  echo "hey sanjay target path is test/items/${ReleaseName}/${UserStory}"
+                  def uploadSpec = """{
+                    "files": [
+                      {
+                        "pattern":"/var/lib/jenkins/workspace/CIPipeline/Example1-master/target/test*.jar",
+                        "target": "libs-snapshot-local/${branchname}/",
+                        "recursive": "true",
+                        "flat": "true"
+                    }
+                     ]
+                    }"""
+
+                  server.upload(uploadSpec)
+        }
+        }
+    }
+}
+}
