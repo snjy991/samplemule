@@ -3,3 +3,4 @@ def getBranchName(){
   def finalbranch=branch.tokenize("/");
   return finalbranch;
 }
+return this
