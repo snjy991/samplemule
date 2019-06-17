@@ -8,12 +8,6 @@ pipeline{
       ANYPOINTSTUDIO_CREDENTIALS= credentials('anypoint-studio-snjy')
       DEPLOYMENT_TYPE = sh(script: "/devops/bin/checkRunType.sh ${APPLICATIONNAME}", , returnStdout: true).trim()
     }
-    stages {
-	    stage('print'){
-		    steps{
-			echo "deploytype env.DEPLOYMENT_TYPE"
-		    }
-	    }
        stage('BuildCode'){
         steps{
 	    	
@@ -57,7 +51,7 @@ pipeline{
             jarName=sh (script : 'ls /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/',returnStdout:true)
             echo "${jarName}"
             def deploy= load "muleDevopsConfig/DeployCloudHub.groovy"
-					  deploy.deployToCloudHub(jarName)
+	        deploy.deployToCloudHub(jarName)
           }
         }
 
