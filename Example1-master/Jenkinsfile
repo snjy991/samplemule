@@ -6,7 +6,7 @@ pipeline{
     environment{
         APPLICATIONNAME="Example1-master"
 	ANYPOINTSTUDIO_CREDENTIALS= credentials('anypoint-studio-snjy')
-        DEPLOYMENT_TYPE = sh(script: '/devops/bin/checkRunType.sh ${APPLICATIONNAME}', , returnStdout: true).trim()
+        DEPLOYMENT_TYPE = sh(script: "/devops/bin/checkRunType.sh ${APPLICATIONNAME}", , returnStdout: true).trim()
     }
     stages {
 
