@@ -1,6 +1,6 @@
 def deployToCloudHub(String JarName){
 	Properties properties = new Properties()
-	def branch=GIT_BRANCH
+	String branch=GIT_BRANCH
 	println("Branch name is ${branch}")
 	if (branch.conatins("Dev_")){
 		File propertiesFile = new File("${workspace}/muleDevopsConfig/dev_env.properties")
