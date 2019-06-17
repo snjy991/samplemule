@@ -35,7 +35,7 @@ pipeline{
                   def uploadSpec = """{
                     "files": [
                       {
-                        "pattern":"/devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/test*.jar",
+                        "pattern":"/devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/*.jar",
                         "target": "libs-snapshot-local/${branchname}/",
                         "recursive": "true",
                         "flat": "true"
@@ -53,8 +53,7 @@ pipeline{
             jarName=sh (script : 'ls /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/',returnStdout:true)
             echo "${jarName}"
             def deploy= load "muleDevopsConfig/DeployCloudHub.groovy"
-            def envType="Dev"
-					  deploy.deployToCloudHub(jarName,envType)
+					  deploy.deployToCloudHub(jarName)
           }
         }
 
