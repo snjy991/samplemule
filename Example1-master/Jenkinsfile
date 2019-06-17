@@ -3,16 +3,16 @@ pipeline{
   tools {
       maven 'M3'
     }
-    environment {
-      APPLICATIONNAME="Example1-master"
-      ANYPOINTSTUDIO_CREDENTIALS= credentials('anypoint-studio-snjy')
-      DEPLOYMENT_TYPE = sh(script: '/devops/bin/checkRunType.sh ${APPLICATIONNAME}', , returnStdout: true).trim()
-
+    environment{
+        APPLICATIONNAME="Example1-master"
+	ANYPOINTSTUDIO_CREDENTIALS= credentials('anypoint-studio-snjy')
+        DEPLOYMENT_TYPE = sh(script: '/devops/bin/checkRunType.sh ${APPLICATIONNAME}', , returnStdout: true).trim()
     }
     stages {
 
        stage('BuildCode'){
         steps{
+	    echo "deploytype ${env.DEPLOYMENT_TYPE}"	
             dir('Example1-master'){
                 sh 'mvn clean install'
             }
