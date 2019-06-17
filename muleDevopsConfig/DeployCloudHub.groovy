@@ -25,11 +25,11 @@ def deployToCloudHub(String JarName){
 		 }
 	 }
 	}
-	if (branch.conatins("Stage_"){
+	if (branch.conatins("Stage_")){
 		println("Deployed in Staging environment")
 	}
 
-	if (branch.conatins("master"){
+	if (branch.conatins("master")){
 		println("Deployed in Production environment")
 	}
 }
