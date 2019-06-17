@@ -2,7 +2,7 @@ def deployToCloudHub(String JarName){
 	Properties properties = new Properties()
 	String branch=GIT_BRANCH
 	println("Branch name is ${branch}")
-	if (branch.conatins("Dev_")){
+	if (branch.contains("Dev_")){
 		File propertiesFile = new File("${workspace}/muleDevopsConfig/dev_env.properties")
 		properties.load(propertiesFile.newDataInputStream())
 		println("the value of worker"+properties.worker)
@@ -25,11 +25,11 @@ def deployToCloudHub(String JarName){
 		 }
 	 }
 	}
-	if (branch.conatins("Stage_")){
+	if (branch.contains("Stage_")){
 		println("Deployed in Staging environment")
 	}
 
-	if (branch.conatins("master")){
+	if (branch.contains("master")){
 		println("Deployed in Production environment")
 	}
 }
