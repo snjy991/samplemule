@@ -14,7 +14,6 @@ pipeline{
        stage('BuildCode'){
         steps{
             dir('Example1-master'){
-              echo "the deployment type ${env.DEPLOYMENT_TYPE}"
                 sh 'mvn clean install'
             }
         }
