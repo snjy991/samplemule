@@ -8,6 +8,7 @@ pipeline{
       ANYPOINTSTUDIO_CREDENTIALS= credentials('anypoint-studio-snjy')
       DEPLOYMENT_TYPE = sh(script: "/devops/bin/checkRunType.sh ${APPLICATIONNAME}", , returnStdout: true).trim()
     }
+    stages{
        stage('BuildCode'){
         steps{
 	    	
@@ -56,4 +57,5 @@ pipeline{
         }
 
     }
+  }  
 }
