@@ -1,4 +1,4 @@
-def deployToCloudHub(String JarName, String envType){
+def deployToCloudHub(String JarName){
 	Properties properties = new Properties()
 	def branch=GIT_BRANCH
 	if (branch.conatins("Dev-")){
