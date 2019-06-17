@@ -49,10 +49,10 @@ pipeline{
     stage("Deploy") {
         steps {
           script{
-            jarName=sh (script : 'ls /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/',returnStdout:true)
+            jarName=sh (script : "ls /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/",returnStdout:true)
             echo "${jarName}"
             def deploy= load "muleDevopsConfig/DeployCloudHub.groovy"
-	        deploy.deployToCloudHub(jarName)
+	          deploy.deployToCloudHub(jarName)
           }
         }
 
