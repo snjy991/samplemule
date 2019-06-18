@@ -1,4 +1,5 @@
 def deployToCloudHub(String JarName){
+	println("The run type is "+ env.DEPLOYMENT_TYPE)
 	Properties properties = new Properties()
 	String branch=GIT_BRANCH
 	println("Branch name is ${branch}")
