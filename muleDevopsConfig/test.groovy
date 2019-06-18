@@ -3,7 +3,5 @@ def testfun(String commit_id, String buidpath){
   def b = new StringBuffer()
   proc.consumeProcessErrorStream(b)
   println proc.text
-  new File(buidpath,'Example.txt').withWriter('utf-8') { 
-         writer -> writer.writeLine 'Hello World' 
 }
 return this
