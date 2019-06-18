@@ -29,7 +29,7 @@ pipeline{
                 sh "cp -r ${workspace}/${applicationName}/target/*.jar /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/"
                 def branchd =load "muleDevopsConfig/BranchDetails.groovy"
                 def branchname= branchd.getBranchName()
-
+		/*
                 def server = Artifactory.server 'Artifactorytest'
                   def uploadSpec = """{
                     "files": [
@@ -42,7 +42,7 @@ pipeline{
                      ]
                     }"""
 
-                  server.upload(uploadSpec)
+                  server.upload(uploadSpec) */
         }
         }
     }
