@@ -3,5 +3,8 @@ def testfun(String commit_id){
   def b = new StringBuffer()
   proc.consumeProcessErrorStream(b)
   println proc.text
+ println "Workespace ${workspace}"
+  new File('E:/','Example.txt').withWriter('utf-8') { 
+         writer -> writer.writeLine 'Hello World' 
 }
 return this
