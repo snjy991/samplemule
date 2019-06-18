@@ -21,15 +21,13 @@ pipeline{
         {
             steps{
             script{
-                sh "git rev-parse --short HEAD> .git/commit-id"
-                def commit_id= readFile('.git/commit-id')
-                sh "/devops/bin/appendCommitid.sh ${workspace}/${applicationName}/target ${commit_id}"
                 //Creating a artifacts in local server first gives a clear visibility on jenkins builds and later uploading code to jfrog artifactory
                 sh "mkdir /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}"
                 sh "cp -r ${workspace}/${applicationName}/target/*.jar /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/"
                 def branchd =load "muleDevopsConfig/BranchDetails.groovy"
                 def branchname= branchd.getBranchName()
-
+		    echo "branch name ${branchname}"
+		/*
                 def server = Artifactory.server 'Artifactorytest'
                   def uploadSpec = """{
                     "files": [
@@ -42,16 +40,20 @@ pipeline{
                      ]
                     }"""
 
-                  server.upload(uploadSpec)
+                  server.upload(uploadSpec) */
         }
         }
     }
     stage("Deploy") {
         steps {
-          script{
+          script{ 
+	     sh "git rev-parse --short HEAD> .git/commit-id"
+             def commit_id= readFile('.git/commit-id')
+             sh "/devops/bin/appendCommitid.sh /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME} ${commit_id}"
             jarName=sh (script : "ls /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/",returnStdout:true)
+		  sh "git diff-tree --no-commit-id --name-only -r ${commit_id}"  
             echo "${jarName}"
-            def deploy= load "muleDevopsConfig/deployToCloudHub.groovy"
+		  def deploy= load "${workspace}/muleDevopsConfig/DeployCloudHub.groovy"
 	          deploy.deployToCloudHub(jarName)
           }
         }
