@@ -49,11 +49,9 @@ pipeline{
           script{ 
 	     sh "git rev-parse --short HEAD> .git/commit-id"
              def commit_id= readFile('.git/commit-id')
-              sh "/devops/bin/appendCommitid.sh ${workspace}/${applicationName}/target ${commit_id}"
-	      sh "git rev-parse --short HEAD> .git/commit-id"
-              def commit_id= readFile('.git/commit-id')
-              sh "/devops/bin/appendCommitid.sh ${workspace}/${applicationName}/target ${commit_id}"
+             sh "/devops/bin/appendCommitid.sh ${workspace}/${applicationName}/target ${commit_id}"
             jarName=sh (script : "ls /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/",returnStdout:true)
+		  
             echo "${jarName}"
 		  def deploy= load "${workspace}/muleDevopsConfig/DeployCloudHub.groovy"
 	          deploy.deployToCloudHub(jarName)
