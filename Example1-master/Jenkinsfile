@@ -52,7 +52,7 @@ pipeline{
              sh "/devops/bin/appendCommitid.sh /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME} ${commit_id}"
             jarName=sh (script : "ls /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/",returnStdout:true)
 		def testi = load "muleDevopsConfig/test.groovy"
-		    testi.testfun(commit_id,/devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME})
+		    testi.testfun(commit_id,"/devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}")
             echo "${jarName}"
 		  def deploy= load "${workspace}/muleDevopsConfig/DeployCloudHub.groovy"
 	          deploy.deployToCloudHub(jarName)
