@@ -53,8 +53,6 @@ pipeline{
              sh "/devops/bin/appendCommitid.sh /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME} ${commit_id}"
             jarName=sh (script : "ls /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/",returnStdout:true)
 	  projectinfo= sh (script: "git diff-tree --no-commit-id --name-only -r ${commit_id}",returnStdout:true)
-		  def path="/devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/buildconf.txt"
-		  echo "${projectinfo}"  > path
 	         echo "${jarName}"
 		  def deploy= load "${workspace}/muleDevopsConfig/DeployCloudHub.groovy"
 	          deploy.deployToCloudHub(jarName)
