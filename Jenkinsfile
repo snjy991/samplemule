@@ -9,8 +9,8 @@ pipeline{
                     BUILD_PATH = "/devops/out/CDScript/working/buildconf.txt"
 	           //build job: 'git', parameters: [[$class: 'StringParameterValue', name: 'buildpath', value: "$BUILD_PATH"],[$class: 'StringParameterValue', name: 'commit_id', value:"$COMMITID"]], wait: true, propagate: true
 	         	//List<String> sourceChanged = sh(returnStdout: true, script: "git diff --name-only origin/master..${env.GIT_BRANCH}").split()
-			  sh(returnStdout: true, script: "git diff-tree --no-commit-id --name-only -r $COMMITID")
-			   
+			  sourcec=sh(returnStdout: true, script: "git diff-tree --no-commit-id --name-only -r $COMMITID")
+			   println("the chages are"+sourcec)
 			    /*for (int i = 0; i < sourceChanged.size(); i++) {
 				   print(i+"th changed"+sourceChanged[i].split("/")[0])
 			    }*/
