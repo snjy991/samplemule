@@ -22,6 +22,9 @@ pipeline{
  			    for (int i = 0; i < uniqueList.size(); i++) {
  				   println(i+"th element is "+uniqueList[i])
  			    }
+            def cpp =load "muleDevopsConfig/CallProjectPipeLines.groovy"
+              cpp.decideProjectPipeLineCall(uniqueList)
+
               }
                 }
             }
