@@ -13,10 +13,13 @@ pipeline{
             //println("the diff branch o/p "+sourceChanged)
 			  List<String> sourceChanged =sh(returnStdout: true, script: "git diff-tree --no-commit-id --name-only -r $COMMITID").split()
 			   //println("the chages are"+sourcec)
+         List<String> uniChange=[]
 			    for (int i = 0; i < sourceChanged.size(); i++) {
-				   print(i+"th changed"+sourceChanged[i].split("/")[0])
+				   uniChange.add(sourceChanged[i].split("/")[0]))
 			    }
-
+ 			    for (int i = 0; i < uniChange.size(); i++) {
+ 				   println(i+"th element is "+uniChange[i])
+ 			    }
               }
                 }
             }
