@@ -15,7 +15,7 @@ pipeline{
 			   //println("the chages are"+sourcec)
          List<String> uniChange=[]
 			    for (int i = 0; i < sourceChanged.size(); i++) {
-				   uniChange.add(sourceChanged[i].split("/")[0]))
+				   uniChange.add(sourceChanged[i].split("/")[0])
 			    }
  			    for (int i = 0; i < uniChange.size(); i++) {
  				   println(i+"th element is "+uniChange[i])
