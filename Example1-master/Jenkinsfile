@@ -25,15 +25,21 @@ pipeline{
                 sh "mkdir /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}"
                 sh "cp -r ${workspace}/${applicationName}/target/*.jar /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/"
                 def branchd =load "muleDevopsConfig/BranchDetails.groovy"
-                def branchname= branchd.getBranchName()
-		    echo "branch name ${branchname}"
+                List<String> branchdeatils= branchd.getBranchName()
+
+                def releaseno= branchdeatils.get(0)
+                def usersto= branchdeatils.get(1)
+                def branchname= branchdeatils.get(2)
+                echo "branch name ${branchname}"
+                echo "release no ${releaseno}"
+                echo "User story ${usersto}"
 		/*
                 def server = Artifactory.server 'Artifactorytest'
                   def uploadSpec = """{
                     "files": [
                       {
                         "pattern":"/devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/*.jar",
-                        "target": "libs-snapshot-local/${branchname}/",
+                        "target": "libs-snapshot-local/${releaseno}/${usersto}/",
                         "recursive": "true",
                         "flat": "true"
                     }
