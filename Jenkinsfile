@@ -14,7 +14,7 @@ pipeline{
 			  List<String> sourceChanged =sh(returnStdout: true, script: "git diff-tree --no-commit-id --name-only -r $COMMITID").split()
 			   //println("the chages are"+sourcec)
 			    for (int i = 0; i < sourceChanged.size(); i++) {
-				   print(i+"th changed"+sourceChanged[i].split(/)[0])
+				   print(i+"th changed"+sourceChanged[i].split("/")[0])
 			    }
 
               }
