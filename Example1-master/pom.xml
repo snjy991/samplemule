@@ -3,8 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.mycompany</groupId>
-	<artifactId>test</artifactId>
-    <version>1.3.0</version>
+	<artifactId>Example1-master</artifactId>
+    <version>1.3.1</version>
     <packaging>mule-application</packaging>
 
 	<name>test</name>

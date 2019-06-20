@@ -5,7 +5,11 @@
 
 	<groupId>com.mycompany</groupId>
 	<artifactId>sample</artifactId>
+<<<<<<< HEAD:sample/pom.xml
     <version>1.2.0-SNAPSHOT</version>
+=======
+    <version>1.2.2-SNAPSHOT</version>
+>>>>>>> Dev_19.2-EDBSS1.3.8-testdevelop:samplesan/pom.xml
     <packaging>mule-application</packaging>
 
 	<name>samplesan</name>

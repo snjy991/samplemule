@@ -3,16 +3,15 @@ pipeline{
   tools {
       maven 'M3'
     }
-    environment {
+    environment{
       APPLICATIONNAME="Example1-master"
       ANYPOINTSTUDIO_CREDENTIALS= credentials('anypoint-studio-snjy')
-      DEPLOYMENT_TYPE = sh(script: '/devops/bin/checkRunType.sh ${APPLICATIONNAME}', , returnStdout: true).trim()
-
+      DEPLOYMENT_TYPE = sh(script: "/devops/bin/checkRunType.sh ${APPLICATIONNAME}", , returnStdout: true).trim()
     }
-    stages {
-
+    stages{
        stage('BuildCode'){
         steps{
+
             dir('Example1-master'){
                 sh 'mvn clean install'
             }
@@ -22,42 +21,48 @@ pipeline{
         {
             steps{
             script{
-                sh "git rev-parse --short HEAD> .git/commit-id"
-                def commit_id= readFile('.git/commit-id')
-                sh "/devops/bin/appendCommitid.sh ${workspace}/${applicationName}/target ${commit_id}"
                 //Creating a artifacts in local server first gives a clear visibility on jenkins builds and later uploading code to jfrog artifactory
                 sh "mkdir /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}"
                 sh "cp -r ${workspace}/${applicationName}/target/*.jar /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/"
-                def branch =load "muleDevopsConfig/BranchDetails.groovy"
-                def branchname= branch.getBranchName()
+                def branchd =load "muleDevopsConfig/BranchDetails.groovy"
+                List<String> branchdeatils= branchd.getBranchName()
 
+                def releaseno= branchdeatils.get(0)
+                def usersto= branchdeatils.get(1)
+                def branchname= branchdeatils.get(2)
+                echo "branch name ${branchname}"
+                echo "release no ${releaseno}"
+                echo "User story ${usersto}"
+		/*
                 def server = Artifactory.server 'Artifactorytest'
                   def uploadSpec = """{
                     "files": [
                       {
-                        "pattern":"/devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/test*.jar",
-                        "target": "libs-snapshot-local/${branchname}/",
+                        "pattern":"/devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/*.jar",
+                        "target": "libs-snapshot-local/${releaseno}/${usersto}/",
                         "recursive": "true",
                         "flat": "true"
                     }
                      ]
                     }"""
 
-                  server.upload(uploadSpec)
+                  server.upload(uploadSpec) */
         }
         }
     }
     stage("Deploy") {
         steps {
           script{
-            jarName=sh (script : 'ls /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/',returnStdout:true)
-            echo "${jarName}"
-            def deploy= load "muleDevopsConfig/DeployCloudHub.groovy"
-            def envType="Dev"
-					  deploy.deployToCloudHub(jarName,envType)
+	     sh "git rev-parse --short HEAD> .git/commit-id"
+             def commit_id= readFile('.git/commit-id')
+            sh "/devops/bin/appendCommitid.sh /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME} ${commit_id}"
+            List<String> jarNames=sh (script : "ls /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/",returnStdout:true).split()
+	          echo "${jarNames.get(0)}"
+		        def deploy= load "${workspace}/muleDevopsConfig/DeployCloudHub.groovy"
+	          deploy.deployToCloudHub(jarNames)
           }
         }
 
     }
-}
+  }
 }
