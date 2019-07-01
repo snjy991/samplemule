@@ -1,5 +1,5 @@
-def getBranchName(){
-  def branch=GIT_BRANCH;
+def getBranchName(String branch){
+  //def branch=GIT_BRANCH;
   def finalbranch=branch.tokenize("/");
   List<String> tokenizebranch=[]
   def temp1= finalbranch[1].tokenize("_")
