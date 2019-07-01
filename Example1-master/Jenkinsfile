@@ -1,5 +1,9 @@
 pipeline{
     agent any
+    parameters{
+           string(name: 'commit_id')
+           string(name:'branchName')
+        }
   tools {
       maven 'M3'
     }
@@ -25,7 +29,7 @@ pipeline{
                 sh "mkdir /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}"
                 sh "cp -r ${workspace}/${applicationName}/target/*.jar /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/"
                 def branchd =load "muleDevopsConfig/BranchDetails.groovy"
-                List<String> branchdeatils= branchd.getBranchName()
+                List<String> branchdeatils= branchd.getBranchName(branchName)
 
                 def releaseno= branchdeatils.get(0)
                 def usersto= branchdeatils.get(1)
