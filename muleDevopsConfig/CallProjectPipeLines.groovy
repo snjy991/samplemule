@@ -1,4 +1,4 @@
-def decideProjectPipeLineCall(List<String> mylist, String Commit_id,String git_branch){
+def decideProjectPipeLineCall(List<String> mylist, String Commit_id){
   for(int i=0 ;i<mylist.size();i++){
     if(mylist[i]=="Example1-master"){
       build job : 'MuleApplicationCICDPipeline',parameters:[[$class: 'StringParameterValue', name: 'commit_id', value:"$Commit_id"]], wait:true, propagate:true
