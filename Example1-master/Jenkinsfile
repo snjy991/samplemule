@@ -28,12 +28,9 @@ pipeline{
                 //Creating a artifacts in local server first gives a clear visibility on jenkins builds and later uploading code to jfrog artifactory
                 sh "mkdir /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}"
                 sh "cp -r ${workspace}/${applicationName}/target/*.jar /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/"
-                echo "i m here"
                 echo "testing ${branchName}"
                 def branchd =load "muleDevopsConfig/BranchDetails.groovy"
-
-                List<String> branchdeatils= branchd.getBranchName(branchName)
-
+                List<String> branchdeatils= branchd.getBranchName()
                 def releaseno= branchdeatils.get(0)
                 def usersto= branchdeatils.get(1)
                 def branchname= branchdeatils.get(2)
