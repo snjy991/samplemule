@@ -2,7 +2,6 @@ pipeline{
     agent any
     parameters{
            string(name: 'commit_id')
-           string(name:'branchName')
         }
   tools {
       maven 'M3'
@@ -28,7 +27,6 @@ pipeline{
                 //Creating a artifacts in local server first gives a clear visibility on jenkins builds and later uploading code to jfrog artifactory
                 sh "mkdir /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}"
                 sh "cp -r ${workspace}/${applicationName}/target/*.jar /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/"
-                echo "testing ${branchName}"
                 def branchd =load "muleDevopsConfig/BranchDetails.groovy"
                 List<String> branchdeatils= branchd.getBranchName()
                 def releaseno= branchdeatils.get(0)
@@ -57,8 +55,8 @@ pipeline{
     stage("Deploy") {
         steps {
           script{
-	     sh "git rev-parse --short HEAD> .git/commit-id"
-             def commit_id= readFile('.git/commit-id')
+	     //sh "git rev-parse --short HEAD> .git/commit-id"
+        //     def commit_id= readFile('.git/commit-id')
             sh "/devops/bin/appendCommitid.sh /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME} ${commit_id}"
             List<String> jarNames=sh (script : "ls /devops/out/CDScript/working/${BUILD_NUMBER}_${JOB_NAME}/",returnStdout:true).split()
 	          echo "${jarNames.get(0)}"

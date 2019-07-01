@@ -23,7 +23,7 @@ pipeline{
  				   println(i+"th element is "+uniqueList[i])
  			    }
             def cpp =load "muleDevopsConfig/CallProjectPipeLines.groovy"
-              cpp.decideProjectPipeLineCall(uniqueList,COMMITID,GIT_BRANCH)
+              cpp.decideProjectPipeLineCall(uniqueList,COMMITID)
 
               }
                 }
