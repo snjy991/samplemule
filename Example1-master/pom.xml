@@ -4,7 +4,7 @@
 
 	<groupId>com.mycompany</groupId>
 	<artifactId>Example1-master</artifactId>
-    <version>1.4.2</version>
+    <version>1.4.3</version>
     <packaging>mule-application</packaging>
 
 	<name>test</name>
